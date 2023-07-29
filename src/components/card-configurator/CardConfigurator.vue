@@ -11,6 +11,13 @@
         v-model:value="currentCard.name"
         class="card-configurator__name"
         label="Name"
+        @input="onNameInput"
+        @keyup.esc="onEscapeName"
+      />
+      <QueryResults
+        v-if="queryResults.length > 0"
+        :results="queryResults"
+        @suggestion-click="onSuggestionClick"
       />
       <div class="card-configurator__two-row">
         <InputText
@@ -83,9 +90,10 @@
 </template>
 
 <script setup>
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import InputText from '@/components/input-text/InputText'
 import InputCheck from '@/components/input-check/InputCheck'
+import QueryResults from '@/components/query-results/QueryResults'
 
 const props = defineProps({
   currentIndex: {
@@ -117,6 +125,77 @@ const currentCard = computed({
 })
 
 const emit = defineEmits(['update:cards'])
+
+const queryTimeout = ref(null)
+
+const queryResults = ref([])
+const isSearching = ref(false)
+const isShowingResults = ref(false)
+
+const onNameInput = async () => {
+  if (currentCard.value.name.length > 3) {
+    if (queryTimeout.value) {
+      clearTimeout(queryTimeout.value)
+    }
+    const searchTerm = currentCard.value.name.replace(' ', '+')
+
+    queryTimeout.value = setTimeout(async () => {
+      isSearching.value = true
+      queryTimeout.value = null
+      try {
+        const response = await fetch('https://www.dnd5eapi.co/api/spells/?name=' + searchTerm)
+        const json = await response.json()
+        isSearching.value = false
+        if (json.count > 0) {
+          isShowingResults.value = true
+          queryResults.value = json.results
+        }
+      } catch (error) {
+        isSearching.value = false
+      }
+    }, 1000)
+  }
+}
+
+const onEscapeName = () => {
+  isShowingResults.value = false
+}
+
+const onSuggestionClick = async (url) => {
+  isShowingResults.value = false
+  try {
+    const response = await fetch('https://www.dnd5eapi.co' + url)
+    const json = await response.json()
+    console.log(json)
+    updateCardData(json)
+  } catch (error) {
+    /* do nothing */
+  }
+}
+
+const updateCardData = (data) => {
+  currentCard.value = {
+    name: data.name,
+    meta: {
+      type: {
+        level: data.level,
+        school: data.school ? data.school.name : 'Other'
+      },
+      castingTime: data.casting_time,
+      range: data.range,
+      components: {
+        verbal: data.components.includes('V'),
+        somatic: data.components.includes('S'),
+        material: data.components.includes('M'),
+        materialName: data.material ?? '',
+      },
+      duration: data.duration,
+      concentration: data.concentration
+    },
+    description: data.desc.join('\n\n'),
+    higherLevels: (data.higher_level.length > 0 ? data.desc.join('\n\n') : '')
+  }
+}
 
 </script>
 
@@ -188,8 +267,12 @@ const emit = defineEmits(['update:cards'])
 }
 
 .card-configurator__level {
-  width: 60px;
+  width: 50px;
   margin-bottom: 16px;
+
+  .card-configurator__two-row & {
+    flex: 1 1 50px;
+  }
 }
 
 .card-configurator__school {

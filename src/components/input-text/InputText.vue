@@ -13,6 +13,7 @@
       v-model="computedValue"
       :type="props.type"
       class="input-text__input"
+      @input="(input) => emit('input', input)"
     >
     <textarea
       v-else
@@ -58,7 +59,7 @@ const computedValue = computed({
   }
 })
 
-const emit = defineEmits(['update:value'])
+const emit = defineEmits(['update:value', 'input'])
 </script>
 
 <style lang="scss">

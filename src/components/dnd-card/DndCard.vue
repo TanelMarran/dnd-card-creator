@@ -37,7 +37,15 @@
       </div>
     </div>
     <div class="dnd-card__body dnd-card__cell">
-      <div class="dnd-card__description">
+      <div
+        v-if="props.meta.components.materialName"
+        class="dnd-card__material"
+      >
+        Material: {{ props.meta.components.materialName }}
+      </div>
+      <div
+        class="dnd-card__description"
+      >
         {{ props.description }}
       </div>
       <div
@@ -270,6 +278,11 @@ const emit = defineEmits(['editButtonClick'])
   padding: 4px 8px;
   text-align: left;
   margin-top: 2px;
+  overflow: hidden;
+}
+
+.dnd-card__material {
+  margin-bottom: 12px;
 }
 
 .dnd-card__higher-levels {

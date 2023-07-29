@@ -35,7 +35,7 @@
           >
             <DndCard
               class="card-grid__card"
-              v-bind="props.cards[getCardIndex(partitionIndex, index)]"
+              v-bind="cards[getCardIndex(partitionIndex, index)]"
               :is-current="currentCardIndex === getCardIndex(partitionIndex, index) && !isPrinting"
               :index="getCardIndex(partitionIndex, index)"
               @edit-button-click="currentCardIndex = currentCardIndex === getCardIndex(partitionIndex, index) ? -1 : getCardIndex(partitionIndex, index)"
@@ -49,7 +49,7 @@
       class="card-grid__configurator"
     >
       <CardConfigurator
-        v-model:cards="computedCards"
+        v-model:cards="cards"
         :current-index="currentCardIndex"
       />
     </div>
@@ -61,39 +61,47 @@ import DndCard from '../dnd-card/DndCard'
 import CardConfigurator from '../card-configurator/CardConfigurator'
 import {computed, nextTick, ref} from 'vue'
 
-const props = defineProps({
-  cards: {
-    type: Array,
-    default: () => []
-  }
-})
+const cards = ref([])
 
-const computedCards = computed({
-  get() {
-    return props.cards
-  },
-  set(newValue) {
-    emit('update:cards', newValue)
-  }
-})
+const addCard = () => {
+  cards.value.push({
+    name: 'New spell',
+    meta: {
+      type: {
+        level: 0,
+        school: 'Other',
+      },
+      castingTime: '1 action',
+      range: 'Self',
+      components: {
+        verbal: true,
+        somatic: false,
+        material: false,
+        materialName: '',
+      },
+      duration: 'Instantaneous',
+      concentration: false,
+    },
+    textSize: 10,
+    description: '',
+    higherLevels: '',
+  })
+  currentCardIndex.value = cards.value.length - 1
+}
 
 const cardPartitions = computed(() => {
-  const numberOfCards = props.cards.length
+  const numberOfCards = cards.value.length
 
   return Math.ceil(numberOfCards / 9)
 })
 
 const finalPartitionCount = computed(() => {
-  const numberOfCards = props.cards.length
+  const numberOfCards = cards.value.length
 
   return numberOfCards % 9
 })
 
 const currentCardIndex = ref()
-
-const addCard = () => {
-  emit('cardAddClick')
-}
 
 const isPrinting = ref(false)
 

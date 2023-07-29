@@ -1,41 +1,9 @@
 <template>
-  <CardGrid
-    :cards="cards"
-    @card-add-click="addCard"
-  />
+  <CardGrid />
 </template>
 
 <script setup>
 import CardGrid from './components/card-grid/CardGrid'
-import {ref} from 'vue'
-
-const cards = ref([])
-
-const addCard = () => {
-  cards.value.push({
-    name: 'new spell',
-    meta: {
-      type: {
-        level: 0,
-        school: 'Other',
-      },
-      castingTime: '1 action',
-      range: 'Self',
-      components: {
-        verbal: true,
-        somatic: false,
-        material: false,
-        materialName: '',
-      },
-      duration: 'Instantaneous',
-      concentration: false,
-    },
-    textSize: 10,
-    description: '',
-    higherLevels: '',
-  })
-}
-
 </script>
 
 <style>
