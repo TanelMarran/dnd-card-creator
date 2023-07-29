@@ -12,29 +12,33 @@
         class="card-configurator__name"
         label="Name"
       />
-      <InputText
-        v-model:value="currentCard.meta.type.level"
-        class="card-configurator__level"
-        type="number"
-        label="Lvl"
-      />
-      <InputText
-        v-model:value="currentCard.meta.type.school"
-        class="card-configurator__school"
-        label="School"
-      />
-      <InputText
-        v-model:value="currentCard.meta.castingTime"
-        class="card-configurator__casting-time"
-        label="Casting time"
-      />
-      <InputText
-        v-model:value="currentCard.meta.range"
-        class="card-configurator__range"
-        label="Range"
-      />
-      <div class="card-configurator__checkbox-wrapper">
-        <div class="">
+      <div class="card-configurator__two-row">
+        <InputText
+          v-model:value="currentCard.meta.type.level"
+          class="card-configurator__level"
+          type="number"
+          label="Lvl"
+        />
+        <InputText
+          v-model:value="currentCard.meta.type.school"
+          class="card-configurator__school"
+          label="School"
+        />
+      </div>
+      <div class="card-configurator__two-row">
+        <InputText
+          v-model:value="currentCard.meta.castingTime"
+          class="card-configurator__casting-time"
+          label="Casting time"
+        />
+        <InputText
+          v-model:value="currentCard.meta.range"
+          class="card-configurator__range"
+          label="Range"
+        />
+      </div>
+      <div class="card-configurator__two-row">
+        <div class="card-configurator__checkbox-wrapper">
           <div class="card-configurator__checkbox-label">
             Components
           </div>
@@ -50,12 +54,12 @@
             />
           </div>
         </div>
+        <InputText
+          v-model:value="currentCard.meta.duration"
+          class="card-configurator__duration"
+          label="Duration"
+        />
       </div>
-      <InputText
-        v-model:value="currentCard.meta.duration"
-        class="card-configurator__duration"
-        label="Duration"
-      />
       <InputText
         v-if="currentCard.meta.components.material"
         v-model:value="currentCard.meta.components.materialName"
@@ -124,10 +128,9 @@ const emit = defineEmits(['update:cards'])
 .card-configurator__inputs {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 (-2px);
 
   & > * {
-    margin: 0 2px 4px;
+    margin: 0 0 4px;
   }
 }
 
@@ -141,14 +144,6 @@ const emit = defineEmits(['update:cards'])
 
 .card-configurator__name {
   width: 100%;
-}
-
-.card-configurator__casting-time,
-.card-configurator__range,
-.card-configurator__checkbox-wrapper,
-.card-configurator__duration {
-  max-width: 50%;
-  flex-grow: 1;
 }
 
 .card-configurator__checkbox-wrapper {
@@ -202,5 +197,15 @@ const emit = defineEmits(['update:cards'])
   margin-bottom: 16px;
 }
 
+.card-configurator__two-row {
+  display: flex;
+  width: 100%;
+  gap: 4px;
+
+  > * {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+  }
+}
 
 </style>

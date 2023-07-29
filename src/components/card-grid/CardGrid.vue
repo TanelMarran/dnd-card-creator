@@ -1,5 +1,8 @@
 <template>
-  <div class="card-grid">
+  <div 
+    class="card-grid"
+    :class="isPrinting && 'card-grid--print'"
+  >
     <div
       v-if="!isPrinting"
       class="card-grid__controls"
@@ -16,7 +19,6 @@
     <div
       id="printTarget"
       class="card-grid__grid"
-      :class="isPrinting && 'card-grid__grid--print'"
     >
       <template
         v-for="(partitionIndex) in cardPartitions"
@@ -118,7 +120,11 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
   position: relative;
   display: flex;
   width: 248px * 3;
-  margin: 0 auto;
+  margin: 64px auto 0;
+
+  &.card-grid--print {
+    margin: 0 auto;
+  }
 }
 
 .card-grid__controls {
@@ -137,6 +143,8 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
 }
 
 .card-grid__controls-inner {
+  position: sticky;
+  top: 32px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -150,7 +158,7 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
   bottom: 0;
   margin-left: 16px;
 
-  & > card-configurator {
+  .card-configurator {
     position: sticky;
     top: 32px;
   }
@@ -167,10 +175,11 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
   width: 100%;
 
   & + & {
-    margin-top: 0;
+    margin-top: 48px;
   }
 
-  .card-grid__grid--print & {
+  .card-grid--print & {
+    margin-top: 24px;
     width: 240px * 3;
   }
 }
@@ -181,8 +190,10 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
   display: flex;
   justify-content: center;
 
-  .card-grid__grid--print & {
+  .card-grid--print & {
     margin-bottom: 0;
+    border-radius: 2px;
+    overflow: hidden;
   }
 }
 
