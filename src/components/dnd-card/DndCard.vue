@@ -36,7 +36,10 @@
         </div>
       </div>
     </div>
-    <div class="dnd-card__body dnd-card__cell">
+    <div
+      class="dnd-card__body dnd-card__cell"
+      :style="{fontSize: props.textSize + 'px'}"
+    >
       <div
         v-if="props.meta.components.materialName"
         class="dnd-card__material"
@@ -61,11 +64,20 @@
     <div class="dnd-card__footer">
       {{ footerText }}
     </div>
-    <button
-      class="dnd-card__edit-button"
-      aria-label="edit"
-      @click="editButton"
-    />
+    <div class="dnd-card__button-overlay">
+      <button
+        class="dnd-card__edit-button"
+        aria-label="edit"
+        @click="editButton"
+      >
+        <span class="dnd-card__edit-button-inner" />
+      </button>
+      <button
+        class="dnd-card__delete-button"
+        aria-label="delete"
+        @click="deleteButton"
+      />
+    </div>
   </div>
 </template>
 
@@ -137,7 +149,7 @@ const spellComponents = computed(() => {
 })
 
 const spellDuration = computed(() => {
-  return props.meta.duration + (props.meta.concentration ? ' (C)' : '')
+  return (props.meta.duration === '' ? 'Instantaneous' : props.meta.duration) + (props.meta.concentration ? ' (C)' : '')
 })
 
 const footerText = computed(() => {
@@ -171,21 +183,125 @@ const editButton = () => {
   emit('editButtonClick', props.index)
 }
 
-const emit = defineEmits(['editButtonClick'])
+const deleteButton = () => {
+  emit('deleteButtonClick', props.index)
+}
+
+const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
 </script>
 
 <style lang="scss">
 
 .dnd-card__edit-button {
   position: absolute;
+  left: 0;
   width: 100%;
-  height: 100%;
-  opacity: 0;
+  top: 0;
+  bottom: 0;
+  border: none;
+  background: none;
+  outline: none;
   cursor: pointer;
 }
 
+.dnd-card__delete-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: gray;
+  border-radius: 100%;
+  border: none;
+  opacity: 0;
+  transition-property: opacity, background-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+
+  .dnd-card:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: red;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background-color: white;
+    margin: 11px 8px;
+    top: 0;
+    left: 0;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background-color: white;
+    margin: 11px 8px;
+    top: 0;
+    left: 0;
+    transform: rotate(-45deg);
+  }
+}
+
+.dnd-card__edit-button-inner {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  background: gray;
+  border-radius: 100%;
+  border: none;
+  opacity: 0;
+  transition-property: opacity, background-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+
+  .dnd-card:hover & {
+    opacity: 1;
+  }
+
+  .dnd-card__edit-button:hover & {
+    background: green;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 2px;
+    background-color: white;
+    margin: 11px 8px;
+    top: 1px;
+    left: 0;
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 2px;
+    background-color: white;
+    margin: 11px 8px;
+    top: 0;
+    left: 1px;
+    transform: rotate(-45deg);
+  }
+}
+
 .dnd-card {
-  background-color: lightgray;
+  background-color: gray;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -196,10 +312,6 @@ const emit = defineEmits(['editButtonClick'])
   font-size: 12px;
   line-height: 14px;
   transition: background-color 150ms ease-in-out;
-
-  &:hover {
-    background-color: lightblue;
-  }
 
   &.is-current {
     background-color: cornflowerblue;
@@ -221,12 +333,8 @@ const emit = defineEmits(['editButtonClick'])
   font-size: 14px;
   line-height: 18px;
   font-weight: 600;
-  color: gray;
+  color: dimgray;
   transition: color 150ms ease-in-out;
-
-  .dnd-card:hover & {
-    color: lightblue;
-  }
 
   .dnd-card.is-current & {
     color: cornflowerblue;
@@ -240,14 +348,10 @@ const emit = defineEmits(['editButtonClick'])
 .dnd-card__property-label {
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 12px;
-  line-height: 12px;
-  color: gray;
+  font-size: 10px;
+  line-height: 10px;
+  color: dimgray;
   transition: color 150ms ease-in-out;
-
-  .dnd-card:hover & {
-    color: lightblue;
-  }
 
   .dnd-card.is-current & {
     color: cornflowerblue;
@@ -279,6 +383,7 @@ const emit = defineEmits(['editButtonClick'])
   text-align: left;
   margin-top: 2px;
   overflow: hidden;
+  line-height: 1.2em;
 }
 
 .dnd-card__material {
@@ -298,5 +403,20 @@ const emit = defineEmits(['editButtonClick'])
   margin-top: 4px;
   color: white;
   letter-spacing: .03rem;
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.dnd-card__button-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(white, 0);
+
+  &:hover {
+    background: rgba(white, 0.5);
+  }
 }
 </style>

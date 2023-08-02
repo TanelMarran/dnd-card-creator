@@ -14,6 +14,27 @@
         <button @click="printCards">
           Print cards
         </button>
+        <input
+          type="file"
+          accept="image/*"
+          @change="setFile"
+        >
+        <img
+          v-if="cardBackImage"
+          class="card-grid__card-preview"
+          :src="cardBackImage"
+          alt="Card back"
+        >
+        <div class="card-grid__control-flex">
+          <label for="printCardBack">
+            Print Card back?
+          </label>
+          <input
+            id="printCardBack"
+            v-model="printCardBack"
+            type="checkbox"
+          >
+        </div>
       </div>
     </div>
     <div
@@ -38,8 +59,30 @@
               v-bind="cards[getCardIndex(partitionIndex, index)]"
               :is-current="currentCardIndex === getCardIndex(partitionIndex, index) && !isPrinting"
               :index="getCardIndex(partitionIndex, index)"
-              @edit-button-click="currentCardIndex = currentCardIndex === getCardIndex(partitionIndex, index) ? -1 : getCardIndex(partitionIndex, index)"
+              @edit-button-click="onEditButtonClick(partitionIndex, index)"
+              @delete-button-click="onDeleteButtonClick(partitionIndex, index)"
             />
+          </div>
+        </div>
+      </template>
+      <template
+        v-for="(partitionIndex) in cardPartitions"
+        :key="partitionIndex"
+      >
+        <div
+          class="card-grid__partition card-grid__page-break"
+        >
+          <div
+            v-for="(index) in ((partitionIndex === cardPartitions) ? (finalPartitionCount === 0 ? 9 : finalPartitionCount) : 9)"
+            :key="index"
+            class="card-grid__item"
+          >
+            <img
+              v-if="cardBackImage"
+              class="card-grid__card-back"
+              :src="cardBackImage"
+              alt="Card back"
+            >
           </div>
         </div>
       </template>
@@ -51,6 +94,7 @@
       <CardConfigurator
         v-model:cards="cards"
         :current-index="currentCardIndex"
+        @update="updateLocalStorage"
       />
     </div>
   </div>
@@ -59,9 +103,17 @@
 <script setup>
 import DndCard from '../dnd-card/DndCard'
 import CardConfigurator from '../card-configurator/CardConfigurator'
-import {computed, nextTick, ref} from 'vue'
+import {computed, nextTick, onMounted, ref, watch} from 'vue'
 
 const cards = ref([])
+
+onMounted(() => {
+  let cardsString = localStorage.getItem('dndCards')
+
+  if (cardsString !== null) {
+    cards.value = JSON.parse(cardsString)
+  }
+})
 
 const addCard = () => {
   cards.value.push({
@@ -82,11 +134,16 @@ const addCard = () => {
       duration: 'Instantaneous',
       concentration: false,
     },
-    textSize: 10,
+    textSize: 12,
     description: '',
     higherLevels: '',
   })
   currentCardIndex.value = cards.value.length - 1
+  updateLocalStorage()
+}
+
+const updateLocalStorage = () => {
+  localStorage.setItem('dndCards', JSON.stringify(cards.value))
 }
 
 const cardPartitions = computed(() => {
@@ -103,9 +160,13 @@ const finalPartitionCount = computed(() => {
 
 const currentCardIndex = ref()
 
+const printCardBack = ref(false)
+const cardBackImage = ref(null)
+
 const isPrinting = ref(false)
 
 const printCards = () => {
+  updateLocalStorage()
   isPrinting.value = true
 
   nextTick(() => {
@@ -115,8 +176,34 @@ const printCards = () => {
   })
 }
 
+const onEditButtonClick = (partitionIndex, index) => {
+  currentCardIndex.value = currentCardIndex.value === getCardIndex(partitionIndex, index) ? -1 : getCardIndex(partitionIndex, index)
+
+  updateLocalStorage()
+}
+
+const onDeleteButtonClick = (partitionIndex, index) => {
+  cards.value.splice(getCardIndex(partitionIndex, index), 1)
+
+  if (currentCardIndex.value >= cards.value.length) {
+    currentCardIndex.value--
+  }
+
+  updateLocalStorage()
+}
+
 const getCardIndex = (partitionIndex, index) => {
   return (index - 1 + (partitionIndex - 1) * 9)
+}
+
+const setFile = (e) => {
+  let files = e.target.files || e.dataTransfer.files
+
+  if (!files.length) {
+    return
+  }
+
+  cardBackImage.value = URL.createObjectURL(files[0])
 }
 
 const emit = defineEmits(['cardAddClick', 'update:cards'])
@@ -207,6 +294,25 @@ const emit = defineEmits(['cardAddClick', 'update:cards'])
 
 .card-grid__page-break {
   page-break-before: always;
+}
+
+.card-grid__control-flex {
+  display: flex;
+  align-items: center;
+}
+
+.card-grid__card-preview {
+  width: 240px;
+  height: 336px;
+  object-fit: cover;
+}
+
+.card-grid__card-back {
+  width: 240px;
+  height: 336px;
+  object-fit: cover;
+  overflow: hidden;
+  border-radius: 2px;
 }
 
 </style>

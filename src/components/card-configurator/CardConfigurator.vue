@@ -52,20 +52,30 @@
           <div class="card-configurator__checkbox-inner">
             <InputCheck
               v-model:value="currentCard.meta.components.verbal"
+              character="V"
             />
             <InputCheck
               v-model:value="currentCard.meta.components.somatic"
+              character="S"
             />
             <InputCheck
               v-model:value="currentCard.meta.components.material"
+              character="M"
             />
           </div>
         </div>
-        <InputText
-          v-model:value="currentCard.meta.duration"
-          class="card-configurator__duration"
-          label="Duration"
-        />
+        <div class="card-configurator__duration-wrapper">
+          <InputText
+            v-model:value="currentCard.meta.duration"
+            class="card-configurator__duration"
+            label="Duration"
+          />
+          <InputCheck
+            v-model:value="currentCard.meta.concentration"
+            class="card-configurator__concentration"
+            character="C"
+          />
+        </div>
       </div>
       <InputText
         v-if="currentCard.meta.components.material"
@@ -85,12 +95,18 @@
         class="card-configurator__higher-levels"
         label="Higher levels"
       />
+      <InputText
+        v-model:value="currentCard.textSize"
+        class="card-configurator__text-size"
+        type="number"
+        label="Text Size"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import InputText from '@/components/input-text/InputText'
 import InputCheck from '@/components/input-check/InputCheck'
 import QueryResults from '@/components/query-results/QueryResults'
@@ -124,7 +140,11 @@ const currentCard = computed({
   }
 })
 
-const emit = defineEmits(['update:cards'])
+watch(() => currentCard, () => {
+  emit('update')
+}, { deep: true })
+
+const emit = defineEmits(['update:cards', 'update'])
 
 const queryTimeout = ref(null)
 
@@ -166,7 +186,6 @@ const onSuggestionClick = async (url) => {
   try {
     const response = await fetch('https://www.dnd5eapi.co' + url)
     const json = await response.json()
-    console.log(json)
     updateCardData(json)
   } catch (error) {
     /* do nothing */
@@ -193,7 +212,8 @@ const updateCardData = (data) => {
       concentration: data.concentration
     },
     description: data.desc.join('\n\n'),
-    higherLevels: (data.higher_level.length > 0 ? data.desc.join('\n\n') : '')
+    higherLevels: (data.higher_level.length > 0 ? data.higher_level.join('\n\n') : ''),
+    textSize: 12
   }
 }
 
@@ -243,6 +263,7 @@ const updateCardData = (data) => {
   display: flex;
   justify-content: center;
   margin-top: 2px;
+  gap: 4px;
 }
 
 .card-configurator__material-name {
@@ -275,6 +296,15 @@ const updateCardData = (data) => {
   }
 }
 
+.card-configurator__text-size {
+  width: 80px;
+  margin-bottom: 16px;
+
+  .card-configurator__two-row & {
+    flex: 1 1 80px;
+  }
+}
+
 .card-configurator__school {
   flex-grow: 1;
   margin-bottom: 16px;
@@ -289,6 +319,16 @@ const updateCardData = (data) => {
     flex: 1 1 50%;
     box-sizing: border-box;
   }
+}
+
+.card-configurator__duration-wrapper {
+  position: relative;
+}
+
+.card-configurator__concentration.input-check {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
 }
 
 </style>
