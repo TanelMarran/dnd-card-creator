@@ -2,6 +2,9 @@
   <div
     v-if="props.currentIndex !== -1"
     class="card-configurator"
+    :class="{
+      'card-configurator--simple': currentCard.isSimple
+    }"
   >
     <div class="card-configurator__title">
       Configure card
@@ -19,7 +22,10 @@
         :results="queryResults"
         @suggestion-click="onSuggestionClick"
       />
-      <div class="card-configurator__two-row">
+      <div
+        v-if="!currentCard.isSimple"
+        class="card-configurator__two-row"
+      >
         <InputText
           v-model:value="currentCard.meta.type.level"
           class="card-configurator__level"
@@ -32,7 +38,10 @@
           label="School"
         />
       </div>
-      <div class="card-configurator__two-row">
+      <div
+        v-if="!currentCard.isSimple"
+        class="card-configurator__two-row"
+      >
         <InputText
           v-model:value="currentCard.meta.castingTime"
           class="card-configurator__casting-time"
@@ -44,7 +53,10 @@
           label="Range"
         />
       </div>
-      <div class="card-configurator__two-row">
+      <div
+        v-if="!currentCard.isSimple"
+        class="card-configurator__two-row"
+      >
         <div class="card-configurator__checkbox-wrapper">
           <div class="card-configurator__checkbox-label">
             Components
@@ -90,17 +102,34 @@
         label="Description"
       />
       <InputText
+        v-model:value="currentCard.simpleCardType"
+        class="card-configurator__simple-type"
+        label="Card type"
+      />
+      <InputText
+        v-if="!currentCard.isSimple"
         v-model:value="currentCard.higherLevels"
         :textarea="true"
         class="card-configurator__higher-levels"
         label="Higher levels"
       />
-      <InputText
-        v-model:value="currentCard.textSize"
-        class="card-configurator__text-size"
-        type="number"
-        label="Text Size"
-      />
+      <div class="card-configurator__simple-wrapper">
+        <InputText
+          v-model:value="currentCard.textSize"
+          class="card-configurator__text-size"
+          type="number"
+          label="Text Size"
+        />
+        <InputCheck
+          id="simple"
+          v-model:value="currentCard.isSimple"
+          class="card-configurator__simple-check"
+          character="X"
+        />
+        <label for="simple">
+          Is simplified card?
+        </label>
+      </div>
     </div>
   </div>
 </template>
@@ -173,7 +202,7 @@ const onNameInput = async () => {
       } catch (error) {
         isSearching.value = false
       }
-    }, 1000)
+    }, 100)
   }
 }
 
@@ -195,6 +224,8 @@ const onSuggestionClick = async (url) => {
 const updateCardData = (data) => {
   currentCard.value = {
     name: data.name,
+    isSimple: data.isSimple ?? false,
+    simpleCardType: data.simpleCardType ?? '',
     meta: {
       type: {
         level: data.level,
@@ -277,6 +308,10 @@ const updateCardData = (data) => {
   textarea {
     text-align: left;
   }
+
+  .card-configurator--simple & {
+    margin-top: 0;
+  }
 }
 
 .card-configurator__higher-levels {
@@ -298,7 +333,7 @@ const updateCardData = (data) => {
 
 .card-configurator__text-size {
   width: 80px;
-  margin-bottom: 16px;
+  margin-right: 8px;
 
   .card-configurator__two-row & {
     flex: 1 1 80px;
@@ -329,6 +364,21 @@ const updateCardData = (data) => {
   position: absolute;
   right: 12px;
   bottom: 12px;
+}
+
+.card-configurator__simple-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.card-configurator__simple-check {
+  margin-right: 4px;
+}
+
+.card-configurator__simple-type {
+  width: 100%;
+
 }
 
 </style>
