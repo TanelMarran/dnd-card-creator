@@ -1,13 +1,16 @@
 <template>
-  <div 
+  <div
     class="dnd-card"
-    :class="props.isCurrent && 'is-current'"
+    :class="{
+      'is-current': props.isCurrent,
+      'dnd-card--simple': props.isSimple,
+    }"
   >
     <div class="dnd-card__header">
       <div class="dnd-card__name dnd-card__cell">
         {{ props.name }}
       </div>
-      <div class="dnd-card__two-row">
+      <div v-if="!props.isSimple" class="dnd-card__two-row">
         <div class="dnd-card__casting-time dnd-card__cell dnd-card__property">
           <div class="dnd-card__property-label">
             Casting Time
@@ -21,7 +24,7 @@
           {{ props.meta.range }}
         </div>
       </div>
-      <div class="dnd-card__two-row">
+      <div v-if="!props.isSimple" class="dnd-card__two-row">
         <div class="dnd-card__components dnd-card__cell dnd-card__property">
           <div class="dnd-card__property-label">
             Components
@@ -52,7 +55,7 @@
         {{ props.description }}
       </div>
       <div
-        v-if="props.higherLevels"
+        v-if="props.higherLevels && !props.isSimple"
         class="dnd-card__higher-levels"
       >
         <div class="dnd-card__higher-levels-label">
@@ -61,7 +64,7 @@
         {{ props.higherLevels }}
       </div>
     </div>
-    <div class="dnd-card__footer">
+    <div v-if="footerText" class="dnd-card__footer">
       {{ footerText }}
     </div>
     <div class="dnd-card__button-overlay">
@@ -89,6 +92,10 @@ const props = defineProps({
     type: String,
     default: () => ''
   },
+  isSimple: {
+    type: Boolean,
+    default: () => false
+  },
   meta: {
     type: Object,
     default: () => ({
@@ -109,6 +116,10 @@ const props = defineProps({
     })
   },
   description: {
+    type: String,
+    default: () => ''
+  },
+  simpleCardType: {
     type: String,
     default: () => ''
   },
@@ -153,6 +164,10 @@ const spellDuration = computed(() => {
 })
 
 const footerText = computed(() => {
+  if (props.isSimple) {
+    return props.simpleCardType
+  }
+
   const level = Math.max(0, props.meta.type.level)
 
   let label = level + 'th-level ' + props.meta.type.school;
@@ -384,6 +399,10 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
   margin-top: 2px;
   overflow: hidden;
   line-height: 1.2em;
+
+  .dnd-card--simple & {
+    margin-top: 0;
+  }
 }
 
 .dnd-card__material {

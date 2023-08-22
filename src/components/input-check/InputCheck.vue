@@ -1,6 +1,7 @@
 <template>
   <div class="input-check">
     <input
+      :id="props.id"
       v-model="computedValue"
       type="checkbox"
       class="input-check__input"
@@ -15,6 +16,10 @@
 import {computed} from 'vue'
 
 const props = defineProps({
+  id: {
+    type: String,
+    default: () => null
+  },
   value: {
     type: Boolean,
     default: () => null
