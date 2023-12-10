@@ -118,6 +118,7 @@ onMounted(() => {
 const addCard = () => {
   cards.value.push({
     name: 'New spell',
+    cardType: 'spell',
     meta: {
       type: {
         level: 0,
