@@ -35,6 +35,16 @@
             type="checkbox"
           >
         </div>
+        <div class="card-grid__control-flex">
+          <label for="printCardBack">
+            Separate card backs?
+          </label>
+          <input
+            id="separateCardBacks"
+            v-model="areCardBacksSeparate"
+            type="checkbox"
+          >
+        </div>
       </div>
     </div>
     <div
@@ -55,6 +65,7 @@
             class="card-grid__item"
           >
             <DndCard
+              v-if="getCardIndex(partitionIndex, index) < cards.length"
               class="card-grid__card"
               v-bind="cards[getCardIndex(partitionIndex, index)]"
               :is-current="currentCardIndex === getCardIndex(partitionIndex, index) && !isPrinting"
@@ -62,29 +73,37 @@
               @edit-button-click="onEditButtonClick(partitionIndex, index)"
               @delete-button-click="onDeleteButtonClick(partitionIndex, index)"
             />
-          </div>
-        </div>
-      </template>
-      <template
-        v-for="(partitionIndex) in cardPartitions"
-        :key="partitionIndex"
-      >
-        <div
-          class="card-grid__partition card-grid__page-break"
-        >
-          <div
-            v-for="(index) in ((partitionIndex === cardPartitions) ? (finalPartitionCount === 0 ? 9 : finalPartitionCount) : 9)"
-            :key="index"
-            class="card-grid__item"
-          >
             <img
-              v-if="cardBackImage"
+              v-else-if="cardBackImage"
               class="card-grid__card-back"
               :src="cardBackImage"
               alt="Card back"
             >
           </div>
         </div>
+      </template>
+      <template v-if="!areCardBacksSeparate">
+        <template
+          v-for="(partitionIndex) in cardPartitions"
+          :key="partitionIndex"
+        >
+          <div
+            class="card-grid__partition card-grid__page-break"
+          >
+            <div
+              v-for="(index) in ((partitionIndex === cardPartitions) ? (finalPartitionCount === 0 ? 9 : finalPartitionCount) : 9)"
+              :key="index"
+              class="card-grid__item"
+            >
+              <img
+                v-if="cardBackImage"
+                class="card-grid__card-back"
+                :src="cardBackImage"
+                alt="Card back"
+              >
+            </div>
+          </div>
+        </template>
       </template>
     </div>
     <div
@@ -148,13 +167,15 @@ const updateLocalStorage = () => {
 }
 
 const cardPartitions = computed(() => {
-  const numberOfCards = cards.value.length
+  const numberOfCards = cards.value.length * (areCardBacksSeparate.value ? 2 : 1)
 
   return Math.ceil(numberOfCards / 9)
 })
 
+const areCardBacksSeparate = ref(true)
+
 const finalPartitionCount = computed(() => {
-  const numberOfCards = cards.value.length
+  const numberOfCards = cards.value.length * (areCardBacksSeparate.value ? 2 : 1)
 
   return numberOfCards % 9
 })

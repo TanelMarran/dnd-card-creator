@@ -1,112 +1,112 @@
 <template>
   <div
-      v-if="props.currentIndex !== -1"
-      class="card-configurator"
+    v-if="props.currentIndex !== -1"
+    class="spell-configurator"
   >
-    <div class="card-configurator__title">
+    <div class="spell-configurator__title">
       Configure spell card
     </div>
-    <div class="card-configurator__inputs">
+    <div class="spell-configurator__inputs">
       <InputText
-          v-model:value="currentCard.name"
-          class="card-configurator__name"
-          label="Name"
-          @input="onNameInput"
-          @keyup.esc="onEscapeName"
+        v-model:value="currentCard.name"
+        class="spell-configurator__name"
+        label="Name"
+        @input="onNameInput"
+        @keyup.esc="onEscapeName"
       />
       <QueryResults
-          v-if="queryResults.length > 0"
-          :results="queryResults"
-          @suggestion-click="onSuggestionClick"
+        v-if="queryResults.length > 0"
+        :results="queryResults"
+        @suggestion-click="onSuggestionClick"
       />
       <div
-          class="card-configurator__two-row"
+        class="spell-configurator__two-row"
       >
         <InputText
-            v-model:value="currentCard.meta.type.level"
-            class="card-configurator__level"
-            type="number"
-            label="Lvl"
+          v-model:value="currentCard.meta.type.level"
+          class="spell-configurator__level"
+          type="number"
+          label="Lvl"
         />
         <InputText
-            v-model:value="currentCard.meta.type.school"
-            class="card-configurator__school"
-            label="School"
+          v-model:value="currentCard.meta.type.school"
+          class="spell-configurator__school"
+          label="School"
         />
       </div>
       <div
-          class="card-configurator__two-row"
+        class="spell-configurator__two-row"
       >
         <InputText
-            v-model:value="currentCard.meta.castingTime"
-            class="card-configurator__casting-time"
-            label="Casting time"
+          v-model:value="currentCard.meta.castingTime"
+          class="spell-configurator__casting-time"
+          label="Casting time"
         />
         <InputText
-            v-model:value="currentCard.meta.range"
-            class="card-configurator__range"
-            label="Range"
+          v-model:value="currentCard.meta.range"
+          class="spell-configurator__range"
+          label="Range"
         />
       </div>
       <div
-          class="card-configurator__two-row"
+        class="spell-configurator__two-row"
       >
-        <div class="card-configurator__checkbox-wrapper">
-          <div class="card-configurator__checkbox-label">
+        <div class="spell-configurator__checkbox-wrapper">
+          <div class="spell-configurator__checkbox-label">
             Components
           </div>
-          <div class="card-configurator__checkbox-inner">
+          <div class="spell-configurator__checkbox-inner">
             <InputCheck
-                v-model:value="currentCard.meta.components.verbal"
-                character="V"
+              v-model:value="currentCard.meta.components.verbal"
+              character="V"
             />
             <InputCheck
-                v-model:value="currentCard.meta.components.somatic"
-                character="S"
+              v-model:value="currentCard.meta.components.somatic"
+              character="S"
             />
             <InputCheck
-                v-model:value="currentCard.meta.components.material"
-                character="M"
+              v-model:value="currentCard.meta.components.material"
+              character="M"
             />
           </div>
         </div>
-        <div class="card-configurator__duration-wrapper">
+        <div class="spell-configurator__duration-wrapper">
           <InputText
-              v-model:value="currentCard.meta.duration"
-              class="card-configurator__duration"
-              label="Duration"
+            v-model:value="currentCard.meta.duration"
+            class="spell-configurator__duration"
+            label="Duration"
           />
           <InputCheck
-              v-model:value="currentCard.meta.concentration"
-              class="card-configurator__concentration"
-              character="C"
+            v-model:value="currentCard.meta.concentration"
+            class="spell-configurator__concentration"
+            character="C"
           />
         </div>
       </div>
       <InputText
-          v-if="currentCard.meta.components.material"
-          v-model:value="currentCard.meta.components.materialName"
-          class="card-configurator__material-name"
-          label="Material name"
+        v-if="currentCard.meta.components.material"
+        v-model:value="currentCard.meta.components.materialName"
+        class="spell-configurator__material-name"
+        label="Material name"
       />
       <InputText
-          v-model:value="currentCard.description"
-          :textarea="true"
-          class="card-configurator__description"
-          label="Description"
+        v-model:value="currentCard.description"
+        :textarea="true"
+        class="spell-configurator__description"
+        label="Description"
       />
       <InputText
-          v-model:value="currentCard.higherLevels"
-          :textarea="true"
-          class="card-configurator__higher-levels"
-          label="Higher levels"
+        v-model:value="currentCard.higherLevels"
+        :textarea="true"
+        class="spell-configurator__higher-levels"
+        label="Higher levels"
       />
-      <div class="card-configurator__simple-wrapper">
+      <div class="spell-configurator__simple-wrapper">
         <InputText
-            v-model:value="currentCard.textSize"
-            class="card-configurator__text-size"
-            type="number"
-            label="Text Size"
+          v-model:value="currentCard.textSize"
+          class="spell-configurator__text-size"
+          type="number"
+          label="Text Size"
         />
       </div>
     </div>
@@ -204,7 +204,6 @@ const updateCardData = (data) => {
   currentCard.value = {
     name: data.name,
     cardType: 'spell',
-    simpleCardType: data.simpleCardType ?? '',
     meta: {
       type: {
         level: data.level,
@@ -230,11 +229,11 @@ const updateCardData = (data) => {
 </script>
 
 <style lang="scss">
-.card-configurator {
+.spell-configurator {
   min-width: 360px;
 }
 
-.card-configurator__inputs {
+.spell-configurator__inputs {
   display: flex;
   flex-wrap: wrap;
 
@@ -243,7 +242,7 @@ const updateCardData = (data) => {
   }
 }
 
-.card-configurator__title {
+.spell-configurator__title {
   font-size: 14px;
   line-height: 18px;
   font-weight: 600;
@@ -251,15 +250,15 @@ const updateCardData = (data) => {
   margin-bottom: 12px;
 }
 
-.card-configurator__name {
+.spell-configurator__name {
   width: 100%;
 }
 
-.card-configurator__checkbox-wrapper {
+.spell-configurator__checkbox-wrapper {
   border: 1px solid;
 }
 
-.card-configurator__checkbox-label {
+.spell-configurator__checkbox-label {
   text-align: center;
   font-size: 10px;
   line-height: 12px;
@@ -269,31 +268,27 @@ const updateCardData = (data) => {
   margin-top: 2px;
 }
 
-.card-configurator__checkbox-inner {
+.spell-configurator__checkbox-inner {
   display: flex;
   justify-content: center;
   margin-top: 2px;
   gap: 4px;
 }
 
-.card-configurator__material-name {
+.spell-configurator__material-name {
   flex-grow: 1;
 }
 
-.card-configurator__description {
+.spell-configurator__description {
   width: 100%;
   margin-top: 12px;
 
   textarea {
     text-align: left;
   }
-
-  .card-configurator--simple & {
-    margin-top: 0;
-  }
 }
 
-.card-configurator__higher-levels {
+.spell-configurator__higher-levels {
   width: 100%;
 
   textarea {
@@ -301,30 +296,30 @@ const updateCardData = (data) => {
   }
 }
 
-.card-configurator__level {
+.spell-configurator__level {
   width: 50px;
   margin-bottom: 16px;
 
-  .card-configurator__two-row & {
+  .spell-configurator__two-row & {
     flex: 1 1 50px;
   }
 }
 
-.card-configurator__text-size {
+.spell-configurator__text-size {
   width: 80px;
   margin-right: 8px;
 
-  .card-configurator__two-row & {
+  .spell-configurator__two-row & {
     flex: 1 1 80px;
   }
 }
 
-.card-configurator__school {
+.spell-configurator__school {
   flex-grow: 1;
   margin-bottom: 16px;
 }
 
-.card-configurator__two-row {
+.spell-configurator__two-row {
   display: flex;
   width: 100%;
   gap: 4px;
@@ -335,29 +330,20 @@ const updateCardData = (data) => {
   }
 }
 
-.card-configurator__duration-wrapper {
+.spell-configurator__duration-wrapper {
   position: relative;
 }
 
-.card-configurator__concentration.input-check {
+.spell-configurator__concentration.input-check {
   position: absolute;
   right: 12px;
   bottom: 12px;
 }
 
-.card-configurator__simple-wrapper {
+.spell-configurator__simple-wrapper {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
-}
-
-.card-configurator__simple-check {
-  margin-right: 4px;
-}
-
-.card-configurator__simple-type {
-  width: 100%;
-
 }
 
 </style>
