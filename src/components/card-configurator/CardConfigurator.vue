@@ -9,25 +9,25 @@
     }"
   >
     <VueSelect
-      class="card-configurator__card-type-select"
       v-model="currentCard.cardType"
+      class="card-configurator__card-type-select"
       :options="cardTypeOptions"
       :clearable="false"
     />
     <SpellConfigurator
       v-if="isSpellCard"
-      :current-index="props.currentIndex"
       v-model:cards="computedCards"
+      :current-index="props.currentIndex"
     />
     <SimpleConfigurator
       v-if="isSimpleCard"
-      :current-index="props.currentIndex"
       v-model:cards="computedCards"
+      :current-index="props.currentIndex"
     />
     <StatConfigurator
       v-if="isStatCard"
-      :current-index="props.currentIndex"
       v-model:cards="computedCards"
+      :current-index="props.currentIndex"
     />
   </div>
 </template>

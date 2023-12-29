@@ -1,8 +1,8 @@
 <template>
   <div
-      v-if="props.currentIndex !== -1"
-      class="stat-configurator"
-      :class="{
+    v-if="props.currentIndex !== -1"
+    class="stat-configurator"
+    :class="{
       'stat-configurator--simple': currentCard.isSimple
     }"
   >

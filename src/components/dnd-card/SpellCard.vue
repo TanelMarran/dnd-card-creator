@@ -1,7 +1,7 @@
 <template>
   <div
-      class="dnd-card"
-      :class="{
+    class="dnd-card"
+    :class="{
       'is-current': props.isCurrent,
     }"
   >
@@ -39,23 +39,23 @@
       </div>
     </div>
     <div
-        class="dnd-card__body dnd-card__cell"
-        :style="{fontSize: props.textSize + 'px'}"
+      class="dnd-card__body dnd-card__cell"
+      :style="{fontSize: props.textSize + 'px'}"
     >
       <div
-          v-if="props.meta.components.materialName"
-          class="dnd-card__material"
+        v-if="props.meta.components.materialName"
+        class="dnd-card__material"
       >
         Material: {{ props.meta.components.materialName }}
       </div>
       <div
-          class="dnd-card__description"
+        class="dnd-card__description"
       >
         {{ props.description }}
       </div>
       <div
-          v-if="props.higherLevels"
-          class="dnd-card__higher-levels"
+        v-if="props.higherLevels"
+        class="dnd-card__higher-levels"
       >
         <div class="dnd-card__higher-levels-label">
           At higher levels:
@@ -63,21 +63,24 @@
         {{ props.higherLevels }}
       </div>
     </div>
-    <div v-if="footerText" class="dnd-card__footer">
+    <div
+      v-if="footerText"
+      class="dnd-card__footer"
+    >
       {{ footerText }}
     </div>
     <div class="dnd-card__button-overlay">
       <button
-          class="dnd-card__edit-button"
-          aria-label="edit"
-          @click="editButton"
+        class="dnd-card__edit-button"
+        aria-label="edit"
+        @click="editButton"
       >
         <span class="dnd-card__edit-button-inner" />
       </button>
       <button
-          class="dnd-card__delete-button"
-          aria-label="delete"
-          @click="deleteButton"
+        class="dnd-card__delete-button"
+        aria-label="delete"
+        @click="deleteButton"
       />
     </div>
   </div>
