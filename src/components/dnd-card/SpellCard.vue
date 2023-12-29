@@ -1,9 +1,6 @@
 <template>
   <div
     class="dnd-card"
-    :class="{
-      'is-current': props.isCurrent,
-    }"
   >
     <div class="dnd-card__header">
       <div class="dnd-card__name dnd-card__cell">
@@ -69,20 +66,6 @@
     >
       {{ footerText }}
     </div>
-    <div class="dnd-card__button-overlay">
-      <button
-        class="dnd-card__edit-button"
-        aria-label="edit"
-        @click="editButton"
-      >
-        <span class="dnd-card__edit-button-inner" />
-      </button>
-      <button
-        class="dnd-card__delete-button"
-        aria-label="delete"
-        @click="deleteButton"
-      />
-    </div>
   </div>
 </template>
 
@@ -93,10 +76,6 @@ const props = defineProps({
   name: {
     type: String,
     default: () => ''
-  },
-  isSimple: {
-    type: Boolean,
-    default: () => false
   },
   meta: {
     type: Object,
@@ -121,10 +100,6 @@ const props = defineProps({
     type: String,
     default: () => ''
   },
-  simpleCardType: {
-    type: String,
-    default: () => ''
-  },
   higherLevels: {
     type: String,
     default: () => ''
@@ -133,14 +108,6 @@ const props = defineProps({
     type: Number,
     default: () => 10
   },
-  index: {
-    type: Number,
-    required: true
-  },
-  isCurrent: {
-    type: Boolean,
-    default: false
-  }
 })
 
 const spellComponents = computed(() => {
@@ -166,10 +133,6 @@ const spellDuration = computed(() => {
 })
 
 const footerText = computed(() => {
-  if (props.isSimple) {
-    return props.simpleCardType
-  }
-
   const level = Math.max(0, props.meta.type.level)
 
   let label = level + 'th-level ' + props.meta.type.school;
@@ -195,16 +158,6 @@ const footerText = computed(() => {
 
   return label
 })
-
-const editButton = () => {
-  emit('editButtonClick', props.index)
-}
-
-const deleteButton = () => {
-  emit('deleteButtonClick', props.index)
-}
-
-const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
 </script>
 
 <style lang="scss">
@@ -330,7 +283,7 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
   line-height: 14px;
   transition: background-color 150ms ease-in-out;
 
-  &.is-current {
+  .dnd-card-container.is-current & {
     background-color: cornflowerblue;
   }
 }

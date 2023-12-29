@@ -1,9 +1,6 @@
 <template>
   <div
     class="dnd-card dnd-card--simple"
-    :class="{
-      'is-current': props.isCurrent,
-    }"
   >
     <div class="dnd-card__header">
       <div class="dnd-card__name dnd-card__cell">
@@ -26,20 +23,6 @@
     >
       {{ footerText }}
     </div>
-    <div class="dnd-card__button-overlay">
-      <button
-        class="dnd-card__edit-button"
-        aria-label="edit"
-        @click="editButton"
-      >
-        <span class="dnd-card__edit-button-inner" />
-      </button>
-      <button
-        class="dnd-card__delete-button"
-        aria-label="delete"
-        @click="deleteButton"
-      />
-    </div>
   </div>
 </template>
 
@@ -51,29 +34,6 @@ const props = defineProps({
     type: String,
     default: () => ''
   },
-  isSimple: {
-    type: Boolean,
-    default: () => false
-  },
-  meta: {
-    type: Object,
-    default: () => ({
-      type: {
-        level: 0,
-        school: 'other',
-      },
-      castingTime: '1 action',
-      range: 'self',
-      components: {
-        verbal: true,
-        somatic: false,
-        material: false,
-        materialName: ''
-      },
-      duration: 'instantaneous',
-      concentration: false,
-    })
-  },
   description: {
     type: String,
     default: () => ''
@@ -82,198 +42,19 @@ const props = defineProps({
     type: String,
     default: () => ''
   },
-  higherLevels: {
-    type: String,
-    default: () => ''
-  },
   textSize: {
     type: Number,
     default: () => 10
   },
-  index: {
-    type: Number,
-    required: true
-  },
-  isCurrent: {
-    type: Boolean,
-    default: false
-  }
-})
-
-const spellComponents = computed(() => {
-  let components = []
-
-  if (props.meta.components.verbal) {
-    components.push('V')
-  }
-
-  if (props.meta.components.somatic) {
-    components.push('S')
-  }
-
-  if (props.meta.components.material) {
-    components.push('M')
-  }
-
-  return components.length > 0 ? components.join(', ') : '-'
-})
-
-const spellDuration = computed(() => {
-  return (props.meta.duration === '' ? 'Instantaneous' : props.meta.duration) + (props.meta.concentration ? ' (C)' : '')
 })
 
 const footerText = computed(() => {
-  if (props.isSimple) {
-    return props.simpleCardType
-  }
-
-  const level = Math.max(0, props.meta.type.level)
-
-  let label = level + 'th-level ' + props.meta.type.school;
-
-  if (level < 4)
-    switch (level) {
-      case 0:
-        label = props.meta.type.school + ' cantrip'
-        break
-
-      case 1:
-        label = '1st-level ' + props.meta.type.school
-        break
-
-      case 2:
-        label = '2nd-level ' + props.meta.type.school
-        break
-
-      case 3:
-        label = '3rd-level ' + props.meta.type.school
-        break
-    }
-
-  return label
+   return props.simpleCardType
 })
 
-const editButton = () => {
-  emit('editButtonClick', props.index)
-}
-
-const deleteButton = () => {
-  emit('deleteButtonClick', props.index)
-}
-
-const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
 </script>
 
 <style lang="scss">
-
-.dnd-card__edit-button {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  border: none;
-  background: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.dnd-card__delete-button {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 24px;
-  height: 24px;
-  background: gray;
-  border-radius: 100%;
-  border: none;
-  opacity: 0;
-  transition-property: opacity, background-color;
-  transition-duration: 150ms;
-  transition-timing-function: ease-in-out;
-  cursor: pointer;
-
-  .dnd-card:hover & {
-    opacity: 1;
-  }
-
-  &:hover {
-    background: red;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background-color: white;
-    margin: 11px 8px;
-    top: 0;
-    left: 0;
-    transform: rotate(45deg);
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background-color: white;
-    margin: 11px 8px;
-    top: 0;
-    left: 0;
-    transform: rotate(-45deg);
-  }
-}
-
-.dnd-card__edit-button-inner {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 24px;
-  height: 24px;
-  background: gray;
-  border-radius: 100%;
-  border: none;
-  opacity: 0;
-  transition-property: opacity, background-color;
-  transition-duration: 150ms;
-  transition-timing-function: ease-in-out;
-  cursor: pointer;
-
-  .dnd-card:hover & {
-    opacity: 1;
-  }
-
-  .dnd-card__edit-button:hover & {
-    background: green;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 2px;
-    background-color: white;
-    margin: 11px 8px;
-    top: 1px;
-    left: 0;
-    transform: rotate(45deg);
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 2px;
-    background-color: white;
-    margin: 11px 8px;
-    top: 0;
-    left: 1px;
-    transform: rotate(-45deg);
-  }
-}
-
 .dnd-card {
   background-color: gray;
   position: relative;
@@ -283,11 +64,9 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
   width: 2.5in;
   padding: 6px;
   box-sizing: border-box;
-  font-size: 12px;
-  line-height: 14px;
   transition: background-color 150ms ease-in-out;
 
-  &.is-current {
+  .dnd-card-container.is-current & {
     background-color: cornflowerblue;
   }
 }
@@ -383,19 +162,6 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
   letter-spacing: .03rem;
   font-size: 10px;
   line-height: 10px;
-}
-
-.dnd-card__button-overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgba(white, 0);
-
-  &:hover {
-    background: rgba(white, 0.5);
-  }
 }
 
 .dnd-card__description {

@@ -13,14 +13,13 @@
         label="Name"
       />
       <InputText
-        v-model:value="currentCard.description"
+        v-model:value="currentCard.simple.description"
         :textarea="true"
         class="simple-configurator__description"
         label="Description"
       />
       <InputText
-        v-if="currentCard.isSimple"
-        v-model:value="currentCard.simpleCardType"
+        v-model:value="currentCard.simple.simpleCardType"
         class="simple-configurator__simple-type"
         label="Card type"
       />

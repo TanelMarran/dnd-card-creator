@@ -337,7 +337,7 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
   line-height: 14px;
   transition: background-color 150ms ease-in-out;
 
-  &.is-current {
+  .dnd-card-container.is-current & {
     background-color: cornflowerblue;
   }
 }

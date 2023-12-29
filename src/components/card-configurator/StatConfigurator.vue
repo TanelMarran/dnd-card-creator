@@ -1,14 +1,17 @@
 <template>
   <div
     v-if="props.currentIndex !== -1"
-    class="stat-configurator"
-    :class="{
-      'stat-configurator--simple': currentCard.isSimple
-    }"
+    class="stat-configurator stat-configurator--stat"
   >
     <div class="stat-configurator__title">
       Configure stat card
     </div>
+    <InputText
+      v-model:value="currentCard.stat.constitution"
+      class="stat-configurator__constitution"
+      type="number"
+      label="Con"
+    />
   </div>
 </template>
 

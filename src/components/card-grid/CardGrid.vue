@@ -136,27 +136,30 @@ onMounted(() => {
 
 const addCard = () => {
   cards.value.push({
-    name: 'New spell',
+    name: 'New card',
     cardType: 'spell',
-    meta: {
-      type: {
-        level: 0,
-        school: 'Other',
+    spell: {
+      meta: {
+        type: {
+          level: 0,
+          school: 'Other',
+        },
+        castingTime: '1 action',
+        range: 'Self',
+        components: {
+          verbal: true,
+          somatic: false,
+          material: false,
+          materialName: '',
+        },
+        duration: 'Instantaneous',
+        concentration: false,
       },
-      castingTime: '1 action',
-      range: 'Self',
-      components: {
-        verbal: true,
-        somatic: false,
-        material: false,
-        materialName: '',
-      },
-      duration: 'Instantaneous',
-      concentration: false,
+    },
+    simple: {
+      simpleCardType: 'Item'
     },
     textSize: 12,
-    description: '',
-    higherLevels: '',
   })
   currentCardIndex.value = cards.value.length - 1
   updateLocalStorage()

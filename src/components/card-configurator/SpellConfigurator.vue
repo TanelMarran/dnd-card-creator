@@ -23,13 +23,13 @@
         class="spell-configurator__two-row"
       >
         <InputText
-          v-model:value="currentCard.meta.type.level"
+          v-model:value="currentCard.spell.meta.type.level"
           class="spell-configurator__level"
           type="number"
           label="Lvl"
         />
         <InputText
-          v-model:value="currentCard.meta.type.school"
+          v-model:value="currentCard.spell.meta.type.school"
           class="spell-configurator__school"
           label="School"
         />
@@ -38,12 +38,12 @@
         class="spell-configurator__two-row"
       >
         <InputText
-          v-model:value="currentCard.meta.castingTime"
+          v-model:value="currentCard.spell.meta.castingTime"
           class="spell-configurator__casting-time"
           label="Casting time"
         />
         <InputText
-          v-model:value="currentCard.meta.range"
+          v-model:value="currentCard.spell.meta.range"
           class="spell-configurator__range"
           label="Range"
         />
@@ -57,46 +57,46 @@
           </div>
           <div class="spell-configurator__checkbox-inner">
             <InputCheck
-              v-model:value="currentCard.meta.components.verbal"
+              v-model:value="currentCard.spell.meta.components.verbal"
               character="V"
             />
             <InputCheck
-              v-model:value="currentCard.meta.components.somatic"
+              v-model:value="currentCard.spell.meta.components.somatic"
               character="S"
             />
             <InputCheck
-              v-model:value="currentCard.meta.components.material"
+              v-model:value="currentCard.spell.meta.components.material"
               character="M"
             />
           </div>
         </div>
         <div class="spell-configurator__duration-wrapper">
           <InputText
-            v-model:value="currentCard.meta.duration"
+            v-model:value="currentCard.spell.meta.duration"
             class="spell-configurator__duration"
             label="Duration"
           />
           <InputCheck
-            v-model:value="currentCard.meta.concentration"
+            v-model:value="currentCard.spell.meta.concentration"
             class="spell-configurator__concentration"
             character="C"
           />
         </div>
       </div>
       <InputText
-        v-if="currentCard.meta.components.material"
-        v-model:value="currentCard.meta.components.materialName"
+        v-if="currentCard.spell.meta.components.material"
+        v-model:value="currentCard.spell.meta.components.materialName"
         class="spell-configurator__material-name"
         label="Material name"
       />
       <InputText
-        v-model:value="currentCard.description"
+        v-model:value="currentCard.spell.description"
         :textarea="true"
         class="spell-configurator__description"
         label="Description"
       />
       <InputText
-        v-model:value="currentCard.higherLevels"
+        v-model:value="currentCard.spell.higherLevels"
         :textarea="true"
         class="spell-configurator__higher-levels"
         label="Higher levels"
