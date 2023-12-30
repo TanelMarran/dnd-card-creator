@@ -26,10 +26,6 @@ const SpellCardData = {
         type: String,
         default: () => ''
     },
-    simpleCardType: {
-        type: String,
-        default: () => ''
-    },
 }
 
 const SimpleCardData = {
@@ -39,8 +35,43 @@ const SimpleCardData = {
     },
     simpleCardType: {
         type: String,
-        default: () => ''
+        default: () => 'Item'
     },
 }
 
-export { SpellCardData, SimpleCardData }
+const StatCardData = {
+    description: {
+        type: String,
+        default: () => ''
+    },
+    constitution: {
+        type: Number,
+        default: () => 10,
+    },
+    strength: {
+        type: Number,
+        default: () => 10,
+    },
+    dexterity: {
+        type: Number,
+        default: () => 10,
+    },
+    intelligence: {
+        type: Number,
+        default: () => 10,
+    },
+    wisdom: {
+        type: Number,
+        default: () => 10,
+    },
+    charisma: {
+        type: Number,
+        default: () => 10,
+    },
+    statCardType: {
+        type: String,
+        default: () => 'Humanoid'
+    },
+}
+
+export { SpellCardData, SimpleCardData, StatCardData }

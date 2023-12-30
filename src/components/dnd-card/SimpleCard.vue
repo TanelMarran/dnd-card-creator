@@ -111,18 +111,6 @@ const footerText = computed(() => {
   }
 }
 
-.dnd-card__two-row {
-  display: flex;
-  flex-basis: 100%;
-  max-width: 100%;
-  margin-bottom: 4px;
-
-  & > * {
-    width: 50%;
-    margin: 0 2px;
-  }
-}
-
 .dnd-card__cell {
   background-color: white;
   border-radius: 2px;

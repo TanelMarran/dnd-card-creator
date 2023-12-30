@@ -17,9 +17,9 @@
     />
     <StatCard
       v-else-if="props.cardType === 'stat'"
-      v-bind="props"
-      :index="props.index"
-      :is-current="props.isCurrent"
+      v-bind="props.stat"
+      :name="props.name"
+      :text-size="props.textSize"
     />
     <div class="dnd-card-container__button-overlay">
       <button
@@ -43,7 +43,7 @@
 import SpellCard from './SpellCard'
 import SimpleCard from './SimpleCard'
 import StatCard from './StatCard'
-import {SimpleCardData, SpellCardData} from '@/types/types'
+import {SimpleCardData, SpellCardData, StatCardData} from '@/types/types'
 
 const props = defineProps({
   name: {
@@ -61,6 +61,10 @@ const props = defineProps({
   simple: {
     type: Object,
     default: () => SimpleCardData
+  },
+  stat: {
+    type: Object,
+    default: () => StatCardData
   },
   textSize: {
     type: Number,

@@ -204,24 +204,26 @@ const updateCardData = (data) => {
   currentCard.value = {
     name: data.name,
     cardType: 'spell',
-    meta: {
-      type: {
-        level: data.level,
-        school: data.school ? data.school.name : 'Other'
+    spell: {
+      meta: {
+        type: {
+          level: data.level,
+          school: data.school ? data.school.name : 'Other'
+        },
+        castingTime: data.casting_time,
+        range: data.range,
+        components: {
+          verbal: data.components.includes('V'),
+          somatic: data.components.includes('S'),
+          material: data.components.includes('M'),
+          materialName: data.material ?? '',
+        },
+        duration: data.duration,
+        concentration: data.concentration
       },
-      castingTime: data.casting_time,
-      range: data.range,
-      components: {
-        verbal: data.components.includes('V'),
-        somatic: data.components.includes('S'),
-        material: data.components.includes('M'),
-        materialName: data.material ?? '',
-      },
-      duration: data.duration,
-      concentration: data.concentration
+      description: data.desc.join('\n\n'),
+      higherLevels: (data.higher_level.length > 0 ? data.higher_level.join('\n\n') : ''),
     },
-    description: data.desc.join('\n\n'),
-    higherLevels: (data.higher_level.length > 0 ? data.higher_level.join('\n\n') : ''),
     textSize: 12
   }
 }

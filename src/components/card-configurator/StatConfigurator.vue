@@ -6,12 +6,53 @@
     <div class="stat-configurator__title">
       Configure stat card
     </div>
-    <InputText
-      v-model:value="currentCard.stat.constitution"
-      class="stat-configurator__constitution"
-      type="number"
-      label="Con"
-    />
+    <div class="simple-configurator__inputs">
+      <InputText
+        v-model:value="currentCard.name"
+        class="simple-configurator__name"
+        label="Name"
+      />
+      <div
+        class="spell-configurator__two-row"
+      >
+        <InputText
+          v-model:value="currentCard.stat.constitution"
+          class="stat-configurator__stat"
+          type="number"
+          label="Con"
+        />
+        <InputText
+          v-model:value="currentCard.stat.strength"
+          class="stat-configurator__stat"
+          type="number"
+          label="Str"
+        />
+        <InputText
+          v-model:value="currentCard.stat.dexterity"
+          class="stat-configurator__stat"
+          type="number"
+          label="Dex"
+        />
+        <InputText
+          v-model:value="currentCard.stat.intelligence"
+          class="stat-configurator__stat"
+          type="number"
+          label="Int"
+        />
+        <InputText
+          v-model:value="currentCard.stat.wisdom"
+          class="stat-configurator__stat"
+          type="number"
+          label="Wis"
+        />
+        <InputText
+          v-model:value="currentCard.stat.charisma"
+          class="stat-configurator__stat"
+          type="number"
+          label="Cha"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -99,6 +140,13 @@ const updateCardData = (data) => {
 </script>
 
 <style lang="scss">
+
+.stat-configurator__stat {
+  & .input-text__input {
+    padding: 18px 8px 4px;
+  }
+}
+
 .stat-configurator {
   min-width: 360px;
 }

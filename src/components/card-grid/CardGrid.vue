@@ -159,6 +159,14 @@ const addCard = () => {
     simple: {
       simpleCardType: 'Item'
     },
+    stat: {
+      constitution: 10,
+      strength: 10,
+      dexterity: 10,
+      intelligence: 10,
+      wisdom: 10,
+      charisma: 10,
+    },
     textSize: 12,
   })
   currentCardIndex.value = cards.value.length - 1
