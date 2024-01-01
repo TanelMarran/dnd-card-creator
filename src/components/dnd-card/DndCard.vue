@@ -225,4 +225,8 @@ const emit = defineEmits(['editButtonClick', 'deleteButtonClick'])
     background: rgba(white, 0.5);
   }
 }
+
+.dnd-card__break-spaces {
+  white-space: break-spaces;
+}
 </style>

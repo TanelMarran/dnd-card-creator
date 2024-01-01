@@ -16,40 +16,118 @@
         class="spell-configurator__two-row"
       >
         <InputText
-          v-model:value="currentCard.stat.constitution"
+          v-model:value="currentCard.stat.proficiency"
           class="stat-configurator__stat"
           type="number"
-          label="Con"
+          label="Proficiency Bonus"
         />
         <InputText
-          v-model:value="currentCard.stat.strength"
+          v-model:value="currentCard.stat.armorClass"
           class="stat-configurator__stat"
-          type="number"
-          label="Str"
+          label="Armor Class"
         />
         <InputText
-          v-model:value="currentCard.stat.dexterity"
+          v-model:value="currentCard.stat.speed"
           class="stat-configurator__stat"
           type="number"
-          label="Dex"
+          label="Speed"
+          suffix="ft"
         />
+      </div>
+      <div
+        class="spell-configurator__two-row stat-configurator__skills"
+      >
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.constitution"
+            class="stat-configurator__stat"
+            type="number"
+            label="Con"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.constitutionSave"
+            character="S"
+          />
+        </div>
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.strength"
+            class="stat-configurator__stat"
+            type="number"
+            label="Str"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.strengthSave"
+            character="S"
+          />
+        </div>
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.dexterity"
+            class="stat-configurator__stat"
+            type="number"
+            label="Dex"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.dexteritySave"
+            character="S"
+          />
+        </div>
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.intelligence"
+            class="stat-configurator__stat"
+            type="number"
+            label="Int"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.intelligenceSave"
+            character="S"
+          />
+        </div>
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.wisdom"
+            class="stat-configurator__stat"
+            type="number"
+            label="Wis"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.wisdomSave"
+            character="S"
+          />
+        </div>
+        <div class="stat-configurator__vertical">
+          <InputText
+            v-model:value="currentCard.stat.charisma"
+            class="stat-configurator__stat"
+            type="number"
+            label="Cha"
+          />
+          <InputCheck
+            v-model:value="currentCard.stat.charismaSave"
+            character="S"
+          />
+        </div>
+      </div>
+      <VueSelect
+        v-model="currentCard.stat.proficiencies"
+        class="select"
+        :options="proficiencies"
+        :clearable="true"
+        multiple
+      />
+      <InputText
+        v-model:value="currentCard.stat.description"
+        :textarea="true"
+        class="spell-configurator__description"
+        label="Description"
+      />
+      <div class="spell-configurator__two-row">
         <InputText
-          v-model:value="currentCard.stat.intelligence"
+          v-model:value="currentCard.stat.statCardType"
           class="stat-configurator__stat"
-          type="number"
-          label="Int"
-        />
-        <InputText
-          v-model:value="currentCard.stat.wisdom"
-          class="stat-configurator__stat"
-          type="number"
-          label="Wis"
-        />
-        <InputText
-          v-model:value="currentCard.stat.charisma"
-          class="stat-configurator__stat"
-          type="number"
-          label="Cha"
+          label="Type"
         />
       </div>
     </div>
@@ -60,6 +138,28 @@
 import {computed, ref, watch} from 'vue'
 import InputText from '@/components/input-text/InputText'
 import InputCheck from '@/components/input-check/InputCheck'
+import VueSelect from 'vue-select'
+
+const proficiencies = [
+  "Athletics",
+  "Acrobatics",
+  "Sleight of Hand",
+  "Stealth",
+  "Arcana",
+  "History",
+  "Investigation",
+  "Nature",
+  "Religion",
+  "Animal Handling",
+  "Insight",
+  "Medicine",
+  "Perception",
+  "Survival",
+  "Deception",
+  "Intimidation",
+  "Performance",
+  "Persuasion"
+]
 
 const props = defineProps({
   currentIndex: {
@@ -274,7 +374,17 @@ const updateCardData = (data) => {
 
 .stat-configurator__simple-type {
   width: 100%;
+}
 
+.stat-configurator__vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-configurator__skills {
+  margin-bottom: 16px;
 }
 
 </style>

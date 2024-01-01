@@ -46,17 +46,21 @@
         Material: {{ props.meta.components.materialName }}
       </div>
       <div
-        class="dnd-card__description"
+        class="dnd-card__description dnd-card__break-spaces"
       >
-        {{ props.description }}
+        <VMarkdownView
+          mode="light"
+          class="markdown"
+          :content="props.description"
+        />
       </div>
       <div
         v-if="props.higherLevels"
-        class="dnd-card__higher-levels"
+        class="dnd-card__description-section"
       >
-        <div class="dnd-card__higher-levels-label">
+        <span class="dnd-card__description-section-label">
           At higher levels:
-        </div>
+        </span>
         {{ props.higherLevels }}
       </div>
     </div>
@@ -71,6 +75,7 @@
 
 <script setup>
 import {computed} from 'vue'
+import { VMarkdownView } from 'vue3-markdown'
 
 const props = defineProps({
   name: {
@@ -364,12 +369,15 @@ const footerText = computed(() => {
   margin-bottom: 12px;
 }
 
-.dnd-card__higher-levels {
-  margin-top: 12px;
+.dnd-card__description-section {
   flex: 1 1 20%;
+
+  * ~ & {
+    margin-top: 12px;
+  }
 }
 
-.dnd-card__higher-levels-label {
+.dnd-card__description-section-label {
   font-weight: 600;
 }
 
@@ -392,9 +400,5 @@ const footerText = computed(() => {
   &:hover {
     background: rgba(white, 0.5);
   }
-}
-
-.dnd-card__description {
-  white-space: break-spaces;
 }
 </style>

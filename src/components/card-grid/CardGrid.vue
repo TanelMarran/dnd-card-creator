@@ -166,6 +166,10 @@ const addCard = () => {
       intelligence: 10,
       wisdom: 10,
       charisma: 10,
+      proficiency: 2,
+      armorClass: '12',
+      speed: 30,
+      statCardType: 'Humanoid'
     },
     textSize: 12,
   })

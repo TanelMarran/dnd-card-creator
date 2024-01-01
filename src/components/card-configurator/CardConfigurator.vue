@@ -10,7 +10,7 @@
   >
     <VueSelect
       v-model="currentCard.cardType"
-      class="card-configurator__card-type-select"
+      class="card-configurator__card-type-select select"
       :options="cardTypeOptions"
       :clearable="false"
     />
@@ -29,6 +29,14 @@
       v-model:cards="computedCards"
       :current-index="props.currentIndex"
     />
+    <div class="spell-configurator__simple-wrapper">
+      <InputText
+        v-model:value="currentCard.textSize"
+        class="spell-configurator__text-size"
+        type="number"
+        label="Text Size"
+      />
+    </div>
   </div>
 </template>
 
@@ -40,6 +48,8 @@ import 'vue-select/dist/vue-select.css'
 import SpellConfigurator from './SpellConfigurator'
 import SimpleConfigurator from '../card-configurator/SimpleConfigurator'
 import StatConfigurator from '../card-configurator/StatConfigurator'
+
+import InputText from '@/components/input-text/InputText'
 
 const isSpellCard = computed(() => currentCard.value.cardType === 'spell')
 const isSimpleCard = computed(() => currentCard.value.cardType === 'simple')

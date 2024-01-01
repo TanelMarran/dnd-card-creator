@@ -44,29 +44,69 @@ const StatCardData = {
         type: String,
         default: () => ''
     },
+    proficiency: {
+        type: Number,
+        default: () => 2,
+    },
+    armorClass: {
+        type: String,
+        default: () => '12',
+    },
+    speed: {
+        type: Number,
+        default: () => 30,
+    },
     constitution: {
         type: Number,
         default: () => 10,
+    },
+    constitutionSave: {
+        type: Boolean,
+        default: () => false,
     },
     strength: {
         type: Number,
         default: () => 10,
     },
+    strengthSave: {
+        type: Boolean,
+        default: () => false,
+    },
     dexterity: {
         type: Number,
         default: () => 10,
+    },
+    dexteritySave: {
+        type: Boolean,
+        default: () => false,
     },
     intelligence: {
         type: Number,
         default: () => 10,
     },
+    intelligenceSave: {
+        type: Boolean,
+        default: () => false,
+    },
     wisdom: {
         type: Number,
         default: () => 10,
     },
+    wisdomSave: {
+        type: Boolean,
+        default: () => false,
+    },
     charisma: {
         type: Number,
         default: () => 10,
+    },
+    charismaSave: {
+        type: Boolean,
+        default: () => false,
+    },
+    proficiencies: {
+        type: Array,
+        default: () => []
     },
     statCardType: {
         type: String,

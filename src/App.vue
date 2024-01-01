@@ -6,7 +6,7 @@
 import CardGrid from './components/card-grid/CardGrid'
 </script>
 
-<style>
+<style lang="scss">
 @font-face {
   font-family: 'Gill Sans';
   src: url('./assets/fonts/GillSansC.woff2')
@@ -22,5 +22,32 @@ import CardGrid from './components/card-grid/CardGrid'
 
 body {
   margin: 0;
+}
+
+.markdown-body {
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    padding: 0;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1em;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+}
+
+.select {
+  width: 100%;
+
+  & .vs__dropdown-toggle {
+    border-radius: 0;
+    border-color: black;
+  }
 }
 </style>

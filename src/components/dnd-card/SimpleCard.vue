@@ -98,19 +98,6 @@ const footerText = computed(() => {
   padding: 2px;
 }
 
-.dnd-card__property-label {
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 10px;
-  color: dimgray;
-  transition: color 150ms ease-in-out;
-
-  .dnd-card.is-current & {
-    color: cornflowerblue;
-  }
-}
-
 .dnd-card__cell {
   background-color: white;
   border-radius: 2px;
@@ -135,24 +122,11 @@ const footerText = computed(() => {
   margin-bottom: 12px;
 }
 
-.dnd-card__higher-levels {
-  margin-top: 12px;
-  flex: 1 1 20%;
-}
-
-.dnd-card__higher-levels-label {
-  font-weight: 600;
-}
-
 .dnd-card__footer {
   margin-top: 4px;
   color: white;
   letter-spacing: .03rem;
   font-size: 10px;
   line-height: 10px;
-}
-
-.dnd-card__description {
-  white-space: break-spaces;
 }
 </style>

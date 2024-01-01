@@ -23,14 +23,6 @@
         class="simple-configurator__simple-type"
         label="Card type"
       />
-      <div class="simple-configurator__simple-wrapper">
-        <InputText
-          v-model:value="currentCard.textSize"
-          class="simple-configurator__text-size"
-          type="number"
-          label="Text Size"
-        />
-      </div>
     </div>
   </div>
 </template>

@@ -101,14 +101,6 @@
         class="spell-configurator__higher-levels"
         label="Higher levels"
       />
-      <div class="spell-configurator__simple-wrapper">
-        <InputText
-          v-model:value="currentCard.textSize"
-          class="spell-configurator__text-size"
-          type="number"
-          label="Text Size"
-        />
-      </div>
     </div>
   </div>
 </template>
